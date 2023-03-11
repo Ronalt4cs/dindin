@@ -121,9 +121,7 @@ async function updateUser(req, res) {
         console.log(error.message);
         return res.status(500).json({ "mensagem": "Erro interno do servidor" });
     }
-
 }
-
 
 module.exports = {
     signUpUser,

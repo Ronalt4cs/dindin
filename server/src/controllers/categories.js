@@ -1,11 +1,13 @@
-const pool = require('../connect');
+const knex = require('../connect');
 
 async function listAllCategories(req, res) {
 
     try {
-        const categories = await pool.query('SELECT * FROM categorias');
+        const categories = await knex.queryBuilder()
+            .select('*')
+            .from('categorias')
 
-        const result = categories.rows.map((category) => ({
+        const result = categories.map((category) => ({
             id: category.id,
             descricao: category.descricao
         }));
