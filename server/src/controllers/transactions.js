@@ -1,28 +1,30 @@
-const pool = require('../connect');
+const knex = require('../connect');
 
 async function listUserTransactions(req, res) {
     const userId = req.user.id;
 
     try {
-        const query = `SELECT 
-                        transacoes.id,
-                        transacoes.tipo,
-                        transacoes.descricao,
-                        transacoes.valor, 
-                        transacoes.data,
-                        transacoes.usuario_id,
-                        transacoes.categoria_id,
-                        categorias.descricao AS categoria_nome 
-                        FROM transacoes 
-                        JOIN categorias
-                        ON transacoes.categoria_id = categorias.id
-                        WHERE transacoes.usuario_id = $1`;
+        const transactions = await knex.queryBuilder()
+            .select(
+                'transacoes.id',
+                'transacoes.tipo',
+                'transacoes.descricao',
+                'transacoes.valor',
+                'transacoes.data',
+                'transacoes.usuario_id',
+                'transacoes.categoria_id',
+                'categorias.descricao AS categoria_nome'
+            )
+            .from('transacoes')
+            .join(
+                'categorias',
+                'transacoes.categoria_id',
+                '=',
+                'categorias.id'
+            )
+            .where('transacoes.usuario_id', userId)
 
-        const queryTransactions = await pool.query(query, [userId]);
-
-        const result = queryTransactions.rows;
-
-        return res.status(200).json(result)
+        return res.status(200).json(transactions)
 
     } catch (error) {
         console.log(error.message);
@@ -34,18 +36,25 @@ async function checkUserTransactionById(req, res) {
     const transactionId = req.params.id;
     const userId = req.user.id;
 
-    const isTransactionValid = await pool.query('SELECT * FROM transacoes WHERE id = $1', [transactionId]);
+    const isTransactionValid = await knex.queryBuilder()
+        .select('*')
+        .from('transacoes')
+        .where('id', transactionId)
+        .first()
 
-
-    if (isTransactionValid.rowCount === 0) {
+    if (!isTransactionValid) {
         return res.status(404).json({ "mensagem": "Transação não encontrada no banco de dados" });
     }
 
     try {
-        const queryparams = [transactionId, userId];
-        const queryTransaction = await pool.query('SELECT * FROM transacoes WHERE id = $1 AND usuario_id = $2', queryparams);
+        const transactions = await knex.queryBuilder()
+            .select('*')
+            .from('transacoes')
+            .where('id', transactionId)
+            .andWhere('usuario_id', userId)
+            .first()
 
-        return res.status(200).json(queryTransaction);
+        return res.status(200).json(transactions);
 
     } catch (error) {
         console.log(error.message);
@@ -54,21 +63,31 @@ async function checkUserTransactionById(req, res) {
 }
 
 async function registerUserTransaction(req, res) {
-    const { descricao, valor, data, categoria_id, tipo } = req.body;
+    const {
+        descricao: description,
+        valor: value,
+        data: date,
+        categoria_id: categoryId,
+        tipo: type
+    } = req.body;
     const userId = req.user.id;
 
-    if (!descricao || !valor || !data || !categoria_id || !tipo) {
+    if (!description || !value || !date || !categoryId || !type) {
         return res.status(400).json({ "mensagem": "Todos os campos obrigatórios devem ser informados." });
     }
 
     try {
-        const isCategoryValid = await pool.query('SELECT * FROM categorias WHERE id = $1', [categoria_id]);
+        const isCategoryValid = await knex.queryBuilder()
+            .select('*')
+            .from('categorias')
+            .where('id', categoryId)
+            .first()
 
-        if (isCategoryValid.rowCount === 0) {
+        if (!isCategoryValid) {
             return res.status(404).json({ "mensagem": "Categoria de transação não encontrada no banco de dados" });
         }
 
-        if (tipo !== "entrada" && tipo !== "saida") {
+        if (type !== "entrada" && type !== "saida") {
             return res.status(400).json({ "mensagem": "Tipo de transação não reconhecido" });
         }
 
@@ -76,11 +95,19 @@ async function registerUserTransaction(req, res) {
                         VALUES ($1, $2, $3, $4, $5, $6)
                         RETURNING *`;
 
-        const result = await pool.query(query, [descricao, valor, data, categoria_id, userId, tipo]);
+        const newTransaction = await knex.queryBuilder()
+            .insert({
+                descricao: description,
+                valor: value,
+                data: date,
+                categoria_id: categoryId,
+                usuario_id: userId,
+                tipo: type
+            })
+            .from('transacoes')
+            .returning('*')
 
-        const [newTransaction] = result.rows;
-
-        return res.status(201).json(newTransaction);
+        return res.status(201).json(newTransaction[0]);
 
     } catch (error) {
         console.log(error.message);
@@ -89,59 +116,81 @@ async function registerUserTransaction(req, res) {
 }
 
 async function updateUserTransaction(req, res) {
-    const { descricao, valor, data, categoria_id, tipo } = req.body;
+    const {
+        descricao: description,
+        valor: value,
+        data: date,
+        categoria_id: categoryId,
+        tipo: type
+    } = req.body;
     const transactionId = req.params.id;
     const userId = req.user.id;
 
-    if (!descricao || !valor || !data || !categoria_id || !tipo) {
+    if (!description || !value || !date || !categoryId || !type) {
         return res.status(400).json({ "mensagem": "Todos os campos obrigatórios devem ser informados." });
     }
 
-    if (tipo !== "entrada" && tipo !== "saida") {
+    if (type !== "entrada" && type !== "saida") {
         return res.status(400).json({ "mensagem": "Tipo de transação não reconhecido" });
     }
 
-    const isTransactionValid = await pool.query('SELECT * FROM transacoes WHERE id = $1 AND usuario_id = $2', [transactionId, userId]);
+    const isTransactionValid = await knex.queryBuilder()
+        .select('*')
+        .from('transacoes')
+        .where('id', transactionId)
+        .andWhere('usuario_id', userId)
+        .first()
 
-
-    if (isTransactionValid.rowCount === 0) {
+    if (!isTransactionValid) {
         return res.status(404).json({ "mensagem": "Transação não encontrada no banco de dados" });
     }
 
     try {
-        const query = `UPDATE transacoes 
-                        SET descricao = $1, valor = $2, data = $3, categoria_id = $4, tipo = $5 
-                        WHERE id = $6
-                        RETURNING *`;
+        const updatedTransaction = await knex.queryBuilder()
+            .update({
+                descricao: description,
+                valor: value,
+                data: date,
+                categoria_id: categoryId,
+                tipo: type,
+                id: transactionId
+            })
+            .from('transacoes')
+            .where('id', transactionId)
+            .returning('*')
 
-        const queryparams = [descricao, valor, data, categoria_id, tipo, transactionId];
-
-        const updatedTransaction = await pool.query(query, queryparams);
-
-        return res.status(204).json(updatedTransaction.rows[0]);
+        return res.status(204).json(updatedTransaction[0]);
 
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({ "mensagem": "Erro interno do servidor" });
     }
-
-
 }
 
 async function deleteUserTransaction(req, res) {
     const transactionId = req.params.id;
     const userId = req.user.id;
 
-    const isTransactionValid = await pool.query('SELECT * FROM transacoes WHERE id = $1 AND usuario_id = $2', [transactionId, userId]);
+    const isTransactionValid = await knex.queryBuilder()
+        .select('*')
+        .from('transacoes')
+        .where('id', transactionId)
+        .andWhere('usuario_id', userId)
+        .first()
 
-    if (isTransactionValid.rowCount === 0) {
+    if (!isTransactionValid) {
         return res.status(404).json({ "mensagem": "Transação não encontrada no banco de dados" });
     }
 
     try {
-        const result = await pool.query('DELETE FROM transacoes WHERE id = $1 AND usuario_id = $2 RETURNING *', [transactionId, userId]);
+        const result = await knex.queryBuilder()
+            .del()
+            .from('transacoes')
+            .where('id', transactionId)
+            .andWhere('usuario_id', userId)
+            .returning('*')
 
-        if (result.rowCount === 0) {
+        if (result.length === 0) {
             return res.status(400).json({ "mensagem": "Erro ao deletar transação" });
         }
 
@@ -157,14 +206,16 @@ async function getAllTransactionStatement(req, res) {
     const userId = req.user.id;
 
     try {
-        const query = `SELECT usuario_id, tipo, SUM(valor) AS total
-                        FROM transacoes
-                        WHERE usuario_id = $1
-                        GROUP BY usuario_id, tipo`;
+        const statementArray = await knex.queryBuilder()
+            .select(
+                'usuario_id',
+                'tipo',
+                knex.raw('SUM(valor) AS total')
+            )
+            .from('transacoes')
+            .where('usuario_id', userId)
+            .groupBy('usuario_id', 'tipo')
 
-        const queryStatement = await pool.query(query, [userId]);
-
-        const statementArray = queryStatement.rows;
 
         const statementObj = {
             "entrada": Number(statementArray[0].total),

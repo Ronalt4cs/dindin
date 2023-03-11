@@ -14,13 +14,11 @@ async function verifyLoggedInUser(req, res, next) {
     try {
         const { id } = jwt.verify(token, jwtSignature);
 
-        const query = "SELECT * FROM usuarios WHERE id = $1";
-        const { rows, rowCount } = await pool.query(query, [id]);
-
         const user = await knex.queryBuilder()
             .select('*')
-            .from('ususario')
+            .from('usuarios')
             .where('id', id)
+            .first()
 
         if (!user) {
             return res.status(401).json({ "mensagem": "Não autorizado" });
