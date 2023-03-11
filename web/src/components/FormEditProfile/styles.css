@@ -1,0 +1,35 @@
+@import url('../../index.css');
+
+.form-edit-profile {
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+
+  width: 611px;
+  height: 800px;
+
+  top: 79px;
+  padding: 60px;
+
+  border-radius: 20px;
+  background-color: #FFFFFF;
+}
+
+.container-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-bottom: calc(52px - 26px);
+}
+
+.container-title h1 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 43px;
+}

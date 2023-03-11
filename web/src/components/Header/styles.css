@@ -1,0 +1,26 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 40px 100px;
+}
+
+.header-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+
+  margin-right: 10px;
+  color: #FFFFFF;
+}
+
+.btn-logout {
+  cursor: pointer;
+}

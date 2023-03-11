@@ -1,0 +1,65 @@
+@import url('../../index.css');
+
+.form-signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  width: 413px;
+  height: 581px;
+
+  background-color: #FFFFFF;
+}
+
+.form-signup h1 {
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 33px;
+
+  color: var(--purple);
+}
+
+.form-signup div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-signup label {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+
+  color: #484848;
+}
+
+.form-signup input {
+  width: 349px;
+  height: 63px;
+
+  padding-left: 10px;
+  border: 1px solid #555555;
+
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.btn-signup {
+  cursor: pointer;
+
+  width: 349px;
+  height: 48px;
+
+  border: none;
+  border-radius: 5px;
+  color: #FFFFFF;
+  background-color: var(--purple);
+}
+
+.to-login {
+  cursor: pointer;
+  color: var(--purple);
+}
