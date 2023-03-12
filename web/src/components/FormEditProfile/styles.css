@@ -6,13 +6,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
+  gap: 22px;
 
-  width: 611px;
-  height: 800px;
+  width: 550px;
+  height: 700px;
 
-  top: 79px;
-  padding: 60px;
+  top: 16px;
+  padding: 30px;
 
   border-radius: 20px;
   background-color: #FFFFFF;
@@ -23,13 +23,13 @@
   align-items: center;
   justify-content: space-between;
 
+  padding: 0 15px;
   width: 100%;
-  margin-bottom: calc(52px - 26px);
 }
 
 .container-title h1 {
   font-style: normal;
   font-weight: 700;
-  font-size: 36px;
+  font-size: 32px;
   line-height: 43px;
 }

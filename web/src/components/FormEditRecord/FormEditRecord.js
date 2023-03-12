@@ -4,18 +4,21 @@ import { useEffect, useState } from 'react'
 import api from '../../services/api'
 import { getItem } from '../../utils/storage'
 import { formatDate } from '../../utils/form'
+import { useTransation } from '../../hooks/useTranations'
 
-export default function FormEditRecord({ setOpenFormEditRecord, transationId }) {
-  const [formType, setFormType] = useState('exit')
+export default function FormEditRecord({ setOpenFormEditRecord }) {
   const token = getItem('token')
+  const [formType, setFormType] = useState('exit')
   const [categories, setCategories] = useState([])
   const [categoryId, setCategoryId] = useState('')
+  const [error, setError] = useState('')
   const [updateRender, setUpdateRender] = useState(false)
   const [form, setForm] = useState({
     value: '',
     description: '',
     date: '',
   })
+  const { transationId } = useTransation()
 
   async function getCategories() {
     try {
@@ -43,8 +46,8 @@ export default function FormEditRecord({ setOpenFormEditRecord, transationId }) 
       const dateFormated = formatDate(form.date)
       const id = parseInt(transationId)
 
-      await api.put(`/transacao/:${id}`, {
-        descricao: form.description,
+      await api.put(`/transacao/${id}`, {
+        descricao: !form.description ? '-' : form.description,
         valor: form.value,
         data: dateFormated,
         categoria_id: categoryId,
@@ -63,8 +66,8 @@ export default function FormEditRecord({ setOpenFormEditRecord, transationId }) 
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if (!form.value || !form.date || !form.description || !categoryId) {
-      console.log('Informações incompletas');
+    if (!form.value || !form.date || !categoryId) {
+      setError('Informações incompletas');
       return
     }
 
@@ -194,6 +197,7 @@ export default function FormEditRecord({ setOpenFormEditRecord, transationId }) 
             value={form.description}
             onChange={handleInputChange}
           />
+          <span className='error'>{error}</span>
         </div>
 
         <button

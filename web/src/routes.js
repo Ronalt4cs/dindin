@@ -19,7 +19,7 @@ function MainRoutes() {
       <Route path="/usuario" element={<SignUp />} />
 
       <Route element={<ProtectedRoutes redirectTo='/login' />}>
-        <Route path="/main" element={<Main />} />
+        <Route path="/home" element={<Main />} />
       </Route>
     </Routes>
 

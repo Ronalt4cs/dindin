@@ -6,13 +6,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
+  gap: 8px;
 
-  width: 611px;
-  height: 879px;
+  width: 551px;
+  height: 700px;
 
-  top: 79px;
-  padding: 60px;
+  top: 16px;
+  padding: 40px;
 
   border-radius: 20px;
   background-color: #FFFFFF;
@@ -24,38 +24,17 @@
   justify-content: space-between;
 
   width: 100%;
-  margin-bottom: calc(52px - 26px);
 }
 
 .container-title h1 {
   font-style: normal;
   font-weight: 700;
-  font-size: 36px;
+  font-size: 32px;
   line-height: 43px;
 }
 
 .container-buttons {
   margin-bottom: calc(38px - 26px);
-}
-
-.btn-entry,
-.btn-exit {
-  cursor: pointer;
-
-  width: 244.5px;
-  height: 56px;
-
-  border: none;
-  border-radius: 5px;
-  color: #FFFFFF;
-}
-
-.btn-entry {
-  background-color: var(--light-blue);
-}
-
-.btn-exit {
-  background-color: var(--light-red);
 }
 
 .btn-confirm {

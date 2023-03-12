@@ -10,6 +10,7 @@ import filterIcon from '../../assets/filter-icon.svg'
 import { useEffect, useState } from "react";
 import { getItem } from '../../utils/storage';
 import api from '../../services/api';
+import { TransationsProvider } from '../../contexts/transationContext'
 
 function Main() {
   const token = getItem('token')
@@ -37,59 +38,62 @@ function Main() {
       })
 
     } catch (error) {
-      return res.status(400).json(error.response.data.message)
+      return res.status(400).json(error.message)
     }
   }
 
   useEffect(() => {
     getUserInfos();
-  }, [])
+
+  }, [user])
 
   return (
-    <div className="container">
-      <Header
-        imgProfile={imgProfile}
-        userName={user.name}
-        logoutIcon={logoutIcon}
-      />
-      <main>
-        <button
-          className='btn-filter'
-          onClick={() => setOpenFilter(!openFilter)}
-        >
-          <img
-            src={filterIcon}
-            alt='Icone de filtro'
-            style={{ marginRight: '4px' }}
-          />
-          Filtrar
-        </button>
+    <TransationsProvider>
+      <div className="container">
+        <Header
+          imgProfile={imgProfile}
+          userName={user.name}
+          logoutIcon={logoutIcon}
+        />
+        <main>
+          <button
+            className='btn-filter'
+            onClick={() => setOpenFilter(!openFilter)}
+          >
+            <img
+              src={filterIcon}
+              alt='Icone de filtro'
+              style={{ marginRight: '4px' }}
+            />
+            Filtrar
+          </button>
 
-        <div className='container-table-summary'>
-          <div>
-            {
-              openFilter &&
-              <Filters />
-            }
-            <Table />
-          </div>
+          <div className='container-table-summary'>
+            <div>
+              {
+                openFilter &&
+                <Filters />
+              }
+              <Table />
+            </div>
 
-          <div className='container-summary'>
-            <Summary updateRender={true} />
-            <button
-              className='btn-add-record'
-              onClick={() => setOpenFormAddRecord(true)}
-            >
-              Adicionar Registro
-            </button>
+            <div className='container-summary'>
+              <Summary updateRender={true} />
+              <button
+                className='btn-add-record'
+                onClick={() => setOpenFormAddRecord(true)}
+              >
+                Adicionar Registro
+              </button>
+            </div>
           </div>
-        </div>
-        {
-          openFormAddRecord &&
-          <FormAddRecord setOpenFormAddRecord={setOpenFormAddRecord} />
-        }
-      </main>
-    </div>
+          {
+            openFormAddRecord &&
+            <FormAddRecord setOpenFormAddRecord={setOpenFormAddRecord} />
+          }
+        </main>
+      </div>
+    </TransationsProvider>
   );
 }
 

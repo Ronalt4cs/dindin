@@ -2,12 +2,13 @@ import './styles.css'
 import logo from '../../assets/logo.svg'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { removeItem } from '../../utils/storage'
+import { removeItem, getItem } from '../../utils/storage'
 import FormEditProfile from '../FormEditProfile/FormEditProfile';
 
 function Header({ imgProfile, userName, logoutIcon }) {
 
   const [openFormEditProfile, setOpenFormEditProfile] = useState(false)
+  const isAtuthenticated = getItem('token')
   const navigate = useNavigate()
 
   function handleClickLogout() {
@@ -19,7 +20,7 @@ function Header({ imgProfile, userName, logoutIcon }) {
     <header>
       <img src={logo} alt='Logo' />
       {
-        imgProfile && userName && logoutIcon &&
+        isAtuthenticated &&
         <div className='header-links'>
           <img
             src={imgProfile}

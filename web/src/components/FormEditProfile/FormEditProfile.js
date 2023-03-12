@@ -8,7 +8,6 @@ import { getItem } from '../../utils/storage'
 
 function FormEditProfile({ setOpenFormEditProfile }) {
   const [error, setError] = useState('')
-  const [idProfileEdit, setIdProfileEdit] = useState('')
   const [passwordToConfirm, setPasswordToConfirm] = useState('')
   const [form, setForm] = useState({
     name: '',

@@ -6,13 +6,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
+  gap: 8px;
 
-  width: 611px;
-  height: 879px;
+  width: 551px;
+  height: 700px;
 
-  top: 79px;
-  padding: 60px;
+  top: 16px;
+  padding: 40px;
 
   border-radius: 20px;
   background-color: #FFFFFF;
@@ -36,26 +36,6 @@
 
 .container-buttons {
   margin-bottom: calc(38px - 26px);
-}
-
-.btn-entry,
-.btn-exit {
-  cursor: pointer;
-
-  width: 244.5px;
-  height: 56px;
-
-  border: none;
-  border-radius: 5px;
-  color: #FFFFFF;
-}
-
-.btn-entry {
-  background-color: var(--light-blue);
-}
-
-.btn-exit {
-  background-color: var(--light-red);
 }
 
 .btn-confirm {

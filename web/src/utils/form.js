@@ -43,7 +43,7 @@ export function getWeekDay(dateStr) {
   if (NumberOfDay === 4) { return 'Quinta' }
   if (NumberOfDay === 5) { return 'Sexta' }
   if (NumberOfDay === 6) { return 'Sábado' }
-  if (NumberOfDay === 0) { return 'Domindo' }
+  if (NumberOfDay === 0) { return 'Domingo' }
 }
 
 export const formatValue = (value) => {

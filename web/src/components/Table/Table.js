@@ -8,15 +8,14 @@ import PopupDeleteRecord from '../PopupDeleteRecord/PopupDeleteRecord'
 import api from '../../services/api'
 import { getItem } from '../../utils/storage'
 import { formatValue, getWeekDay } from '../../utils/form'
-import { set } from 'date-fns'
+import { useTransation } from '../../hooks/useTranations'
 
 export default function Table() {
   const [openFormEditRecord, setOpenFormEditRecord] = useState(false)
   const [openPopupDeleteRecord, setOpenPopupDeleteRecord] = useState(false)
   const token = getItem('token')
   const [transactions, setTransactions] = useState([])
-  const [recordSelectedId, setRecordSelectedId] = useState(null)
-  // const [updateRender, setUpdateRender] = useState(false)
+  const { transationId, setTransationId } = useTransation()
 
   async function getTransactions() {
     try {
@@ -47,28 +46,30 @@ export default function Table() {
   }
 
   async function handleEditRecord(transaction) {
+    setTransationId(transaction.id)
     setOpenFormEditRecord(true)
-    setRecordSelectedId(transaction.id)
-
+    console.log(transationId);
   }
 
-  async function deleteRow(transationId) {
-    const id = parseInt(transationId)
-    try {
-      await api.delete(`/transacao/:${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+  // async function deleteRow(transationId) {
+  //   const id = parseInt(transationId)
+  //   try {
+  //     await api.delete(`/transacao/:${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     })
 
-    } catch (error) {
-      return console.log(error.message);
-    }
-  }
+  //   } catch (error) {
+  //     return console.log(error.message);
+  //   }
+  // }
+
   async function handleDeleteRecord(transaction) {
 
     setOpenPopupDeleteRecord(true)
-    setRecordSelectedId(transaction.id)
+    setTransationId(transaction.id)
+    console.log(transaction.id);
   }
 
   useEffect(() => {
@@ -125,10 +126,9 @@ export default function Table() {
                   onClick={() => handleEditRecord(transaction)}
                 />
                 {
-                  openFormEditRecord && transaction.id === recordSelectedId &&
+                  openFormEditRecord && transaction.id === transationId &&
                   <FormEditRecord
                     setOpenFormEditRecord={setOpenFormEditRecord}
-                    transactionId={recordSelectedId}
                   />
                 }
                 <div>
@@ -139,11 +139,9 @@ export default function Table() {
                     onClick={() => handleDeleteRecord(transaction)}
                   />
                   {
-                    openPopupDeleteRecord && transaction.id === recordSelectedId &&
+                    openPopupDeleteRecord && transationId === transaction.id &&
                     <PopupDeleteRecord
                       setOpenPopupDeleteRecord={setOpenPopupDeleteRecord}
-                      token={token}
-                      transationId={transaction.id}
                     />
                   }
                 </div>

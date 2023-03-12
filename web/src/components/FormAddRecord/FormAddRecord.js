@@ -10,6 +10,7 @@ export default function FormAddRecord({ setOpenFormAddRecord }) {
   const [categories, setCategories] = useState([])
   const [updateRender, setUpdateRender] = useState(false)
   const [categoryId, setCategoryId] = useState('')
+  const [error, setError] = useState('')
   const [form, setForm] = useState({
     value: '',
     description: '',
@@ -44,7 +45,7 @@ export default function FormAddRecord({ setOpenFormAddRecord }) {
 
       await api.post('/transacao', {
         tipo: formType === 'entry' ? 'entrada' : 'saida',
-        descricao: form.description,
+        descricao: !form.description ? '-' : form.description,
         valor: form.value,
         data: dateFormated,
         categoria_id: categoryId,
@@ -63,8 +64,8 @@ export default function FormAddRecord({ setOpenFormAddRecord }) {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if (!form.value || !form.date || !form.description || !categoryId) {
-      console.log('Informações incompletas');
+    if (!form.value || !form.date || !categoryId) {
+      setError('Informações incompletas');
       return
     }
 
@@ -194,6 +195,7 @@ export default function FormAddRecord({ setOpenFormAddRecord }) {
             value={form.description}
             onChange={handleInputChange}
           />
+          <span className='error'>{error}</span>
         </div>
 
         <button

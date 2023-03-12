@@ -17,13 +17,6 @@
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   background-image: url('./assets/background.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -60,8 +53,8 @@ code {
 }
 
 input {
-  width: 485px;
-  height: 63.49px;
+  width: 455px;
+  height: 53px;
 
   padding-left: 22px;
 
@@ -77,8 +70,8 @@ input {
 .select {
   cursor: pointer;
 
-  width: 485px;
-  height: 63.49px;
+  width: 455px;
+  height: 53.49px;
 
   border: 1px solid #555555;
   border-radius: 5px;
@@ -87,7 +80,7 @@ input {
   background-image: url('./assets/select-trigger-icon.svg');
   background-repeat: no-repeat;
   background-position: right center;
-  background-position-x: 455px;
+  background-position-x: 425px;
   padding: 8px 16px;
 }
 
@@ -134,4 +127,24 @@ label {
 
   color: #FFFFFF;
   background-color: var(--purple);
+}
+
+.btn-entry,
+.btn-exit {
+  cursor: pointer;
+
+  width: 230px;
+  height: 46px;
+
+  border: none;
+  border-radius: 5px;
+  color: #FFFFFF;
+}
+
+.btn-entry {
+  background-color: var(--light-blue);
+}
+
+.btn-exit {
+  background-color: var(--light-red);
 }

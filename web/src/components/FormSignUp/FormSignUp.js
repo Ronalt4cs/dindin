@@ -17,7 +17,7 @@ export default function FormSignUp() {
 
   useEffect(() => {
     if (getItem('token')) {
-      navigate('/main')
+      navigate('/home')
     }
   }, [navigate])
 

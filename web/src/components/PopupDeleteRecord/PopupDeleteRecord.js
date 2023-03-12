@@ -1,18 +1,20 @@
 import './styles.css'
 import api from '../../services/api'
 import { getItem } from '../../utils/storage'
+import { useTransation } from '../../hooks/useTranations'
 
-function PopupDeleteRecord({ setOpenPopupDeleteRecord, transationId }) {
+function PopupDeleteRecord({ setOpenPopupDeleteRecord }) {
   const token = getItem('token')
+  const { transationId } = useTransation()
 
   async function handleDeleteRow() {
-    const id = parseInt(transationId)
     try {
-      await api.delete(`/transacao/:${id}`, {
+      await api.delete(`/transacao/${transationId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
+      setOpenPopupDeleteRecord(false)
 
     } catch (error) {
       return console.log(error.message);

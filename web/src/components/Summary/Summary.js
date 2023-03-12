@@ -32,7 +32,7 @@ export default function Summary() {
   useEffect(() => {
     getTransactions()
 
-  }, [])
+  }, [balance])
 
   return (
     <div className='summary'>

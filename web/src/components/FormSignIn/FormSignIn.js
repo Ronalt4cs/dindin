@@ -15,7 +15,7 @@ export default function FormSignIn() {
 
   useEffect(() => {
     if (getItem('token')) {
-      navigate('/main')
+      navigate('/home')
     }
   }, [navigate])
 
@@ -45,7 +45,7 @@ export default function FormSignIn() {
       setItem('userId', data.user.id)
       setItem('token', data.token)
 
-      navigate('/main')
+      navigate('/home')
 
     } catch (error) {
       setError('Email ou senha inválidos!')
