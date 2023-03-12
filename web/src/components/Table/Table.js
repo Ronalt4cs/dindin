@@ -48,28 +48,13 @@ export default function Table() {
   async function handleEditRecord(transaction) {
     setTransationId(transaction.id)
     setOpenFormEditRecord(true)
-    console.log(transationId);
+    console.log(transaction);
   }
-
-  // async function deleteRow(transationId) {
-  //   const id = parseInt(transationId)
-  //   try {
-  //     await api.delete(`/transacao/:${id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     })
-
-  //   } catch (error) {
-  //     return console.log(error.message);
-  //   }
-  // }
 
   async function handleDeleteRecord(transaction) {
 
     setOpenPopupDeleteRecord(true)
     setTransationId(transaction.id)
-    console.log(transaction.id);
   }
 
   useEffect(() => {
@@ -129,6 +114,7 @@ export default function Table() {
                   openFormEditRecord && transaction.id === transationId &&
                   <FormEditRecord
                     setOpenFormEditRecord={setOpenFormEditRecord}
+                    infos={transaction}
                   />
                 }
                 <div>

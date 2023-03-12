@@ -6,7 +6,7 @@ import { getItem } from '../../utils/storage'
 import { formatDate } from '../../utils/form'
 import { useTransation } from '../../hooks/useTranations'
 
-export default function FormEditRecord({ setOpenFormEditRecord }) {
+export default function FormEditRecord({ setOpenFormEditRecord, infos }) {
   const token = getItem('token')
   const [formType, setFormType] = useState('exit')
   const [categories, setCategories] = useState([])
@@ -147,7 +147,7 @@ export default function FormEditRecord({ setOpenFormEditRecord }) {
             type='text'
             name='value'
             id='input-value'
-            value={form.value}
+            value={infos.value}
             onChange={handleInputChange}
           />
         </div>
@@ -183,7 +183,7 @@ export default function FormEditRecord({ setOpenFormEditRecord }) {
             type='text'
             name='date'
             id='input-date'
-            value={form.date}
+            value={infos.date}
             onChange={handleInputChange}
           />
         </div>
@@ -194,7 +194,7 @@ export default function FormEditRecord({ setOpenFormEditRecord }) {
             type='text'
             name='description'
             id='input-description'
-            value={form.description}
+            value={infos.description}
             onChange={handleInputChange}
           />
           <span className='error'>{error}</span>
