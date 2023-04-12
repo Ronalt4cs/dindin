@@ -111,7 +111,6 @@ Abaixo, listamos os possíveis **_status codes_** esperados como resposta da API
 
 ## **Endpoints**
 ---
-# Pessoa A
 ### **Cadastrar usuário**
 #### `POST` `/usuario`
 
@@ -168,7 +167,6 @@ Essa é a rota que será utilizada para cadastrar um novo usuario no sistema.
 ```
 
 ---
-# Pessoa A
 ### **Login do usuário**
 
 #### `POST` `/login`
@@ -240,7 +238,6 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
   - Consultar usuário no banco de dados pelo id contido no token informado
 
 ---
-# Pessoa B
 ### **Detalhar usuário**
 
 #### `GET` `/usuario`
@@ -282,7 +279,6 @@ Essa é a rota que será chamada quando o usuario quiser obter os dados do seu p
 }
 ```
 ---
-# Pessoa B
 ### **Atualizar usuário**
 
 #### `PUT` `/usuario`
@@ -337,7 +333,6 @@ Essa é a rota que será chamada quando o usuário quiser realizar alterações 
 }
 ```
 ---
-# Pessoa B
 ### **Listar categorias**
 
 #### `GET` `/categoria`
@@ -383,7 +378,6 @@ Essa é a rota que será chamada quando o usuario logado quiser listar todas as 
 []
 ```
 ---
-# Pessoa B
 ### **Listar transações do usuário logado**
 
 #### `GET` `/transacao`
@@ -443,7 +437,6 @@ Essa é a rota que será chamada quando o usuario logado quiser listar todas as 
 []
 ```
 ---
-# Pessoa A
 ### **Detalhar uma transação do usuário logado**
 
 #### `GET` `/transacao/:id`
@@ -492,7 +485,6 @@ Essa é a rota que será chamada quando o usuario logado quiser obter uma das su
 }
 ```
 ---
-# Pessoa A
 ### **Cadastrar transação para o usuário logado**
 
 #### `POST` `/transacao`
@@ -561,7 +553,6 @@ Essa é a rota que será utilizada para cadastrar uma transação associada ao u
 }
 ```
 ---
-# Pessoa B
 ### **Atualizar transação do usuário logado**
 
 #### `PUT` `/transacao/:id`
@@ -622,7 +613,6 @@ Essa é a rota que será chamada quando o usuario logado quiser atualizar uma da
 }
 ```
 ---
-# Pessoa B
 ### **Excluir transação do usuário logado**
 
 #### `DELETE` `/transacao/:id`
@@ -663,7 +653,6 @@ Essa é a rota que será chamada quando o usuario logado quiser excluir uma das 
 }
 ```
 ---
-# Pessoa A
 ### **Obter extrato de transações**
 
 #### `GET` `/transacao/extrato`
@@ -703,7 +692,6 @@ Essa é a rota que será chamada quando o usuario logado quiser obter o extrato 
 ```
 
 ---
-# Pessoa A
 ## **EXTRA**
 
 **ATENÇÃO!:** Esta parte extra não é obrigatória e recomendamos que seja feita apenas quando terminar toda a parte obrigatória acima.
@@ -768,13 +756,3 @@ Na funcionalidade de listagem de transações do usuário logado (**GET /transac
 ```
 
 ---
-
-Link do deploy da API somente para testes: [link](https://desafio-backend-03-dindin.pedagogico.cubos.academy/)
-
-**Este link é somente para testes (ou seja, será possível realizar requisições a esta API através deste link visando AUXILIAR principalmente o desenvolvimento do desafio de Front-end, o que permitirá o desenvolvimento em paralelo de ambos os desafios)!**
-
----
-
-**LEMBRE-SE**: Feito é melhor que perfeito!!!
-
-###### tags: `back-end` `módulo 3` `nodeJS` `PostgreSQL` `API REST` `desafio`
