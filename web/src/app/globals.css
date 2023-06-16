@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-background {
+  background-image: url('../assets/background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.filters-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1rem;
+
+  width: 5rem;
+  height: 1.25rem;
+
+  border-radius: 10px;
+}
+
