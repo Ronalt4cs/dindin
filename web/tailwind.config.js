@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        rubik: 'var(--font-rubik)',
-        lato: 'var(--font-lato)',
+        rubik: 'var(--font-rubik) sans-serif',
+        lato: 'var(--font-lato) sans-serif',
       },
       colors: {
         lightBlue: '#3A9FF1',
